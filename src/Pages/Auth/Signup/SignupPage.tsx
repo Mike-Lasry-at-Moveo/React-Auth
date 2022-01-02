@@ -4,8 +4,11 @@ import IAuth from 'Interfaces/Auth';
 import { ClassName, Errors, InputTypes, Path, Str } from 'Interfaces/Enums';
 import usersService from 'Services/users';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignupPage() {
+
+    const navigate = useNavigate();
 
     // Handlers functions
 
@@ -27,7 +30,8 @@ export default function SignupPage() {
         if (!validateInputs()) return alert(Errors.FILL_CREDS);
         if (!passwordsMatch()) return alert(Errors.PW_MATCH);
         usersService.signup(credentials).then(axiosResponse => {
-             resetFields();             
+             resetFields();  
+             navigate(`/${Path.LOGIN_SFX}`)
         });
     }
 

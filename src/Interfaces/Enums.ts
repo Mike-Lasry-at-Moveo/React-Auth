@@ -13,8 +13,12 @@ enum Errors {
 
 enum Str { 
     EMPTY = '',
+    EQUALS = '=',
+    SEMI_COLON = ';',
+    JWT = 'jwt',
     CHOOSE_VAL = 'Choose a new value',
     WELCOME_B = 'Welcome back!',
+    INVALID = "Please fill all fields properlly!"
 }
 
 enum Path {
@@ -85,7 +89,7 @@ enum ClassName {
     UPDT_BTN = 'updateBtn',
 }
 
-export  { 
+export {
     InputTypes, 
     ClassName,
     Errors,

@@ -4,7 +4,6 @@ import usersService from "Services/users";
 import { ClassName, Errors, Path } from "Interfaces/Enums";
 import IResponse from "Interfaces/Response";
 import IUser from "Interfaces/User";
-import UserDetails from "../UserDetails/UserDetails";
 import UserBadge from "../UserBadge/UserBadge";
 import { Link } from "react-router-dom";
 
@@ -18,16 +17,17 @@ export default function UserList() {
     const deleteUser = (id: string) => {
         usersService.deleteUser(id)
          .then(response => {
-             console.log(response.data)
+             if(!response.data.deletedCount) return alert(Errors)
              const newUsers = users.filter(u => u._id != id);
              setUsers((ps) => newUsers);
          });
     }
 
+    
     const [users, setUsers] = useState([] as IUser[]);
 
     React.useEffect(() => {
-        usersService.getAllUsers().then(response => {
+        usersService.getAllUsers(usersService.getToken()).then(response => {
             if (response && response.data) handleResponse(response.data);
         }).catch((err) => console.error.bind(Errors.AXIOS));
     }, []);

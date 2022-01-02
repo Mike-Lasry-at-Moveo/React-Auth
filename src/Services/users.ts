@@ -1,23 +1,24 @@
 import React from "react";
 import axios from "axios";
-import { Path } from "Interfaces/Enums";
+import { Errors, Path, Str } from "Interfaces/Enums";
 import IAuth from "Interfaces/Auth";
 import IUpdateUser from "Interfaces/UserUpdate";
 
-const getAllUsers = () => {
-    return axios.get(Path.BASE_URL);
+const getAllUsers = (token: string) => {
+    const config = { headers: { ['authorization']: `Bearer: ${token}` } }; 
+    return axios.get(Path.BASE_URL, config);
 }
 
 const getUserById = (id: string) => {
     return axios.get(`${Path.BASE_URL}/${id}`);
- }
+}
 
 const signup = (credentials: IAuth) => {
     return axios.post(`${Path.BASE_URL}`, credentials);
- }
+}
 
 const login = (payload: IAuth) => { 
-    return axios.post(`${Path.BASE_URL}/${Path.LOGIN_SFX}`, {...payload});
+    return axios.post(`${Path.BASE_URL}/${Path.LOGIN_SFX}`, payload);
 }
 
 const changeUser = (id: string, update: IUpdateUser) => {
@@ -28,6 +29,19 @@ const deleteUser = (id: string) => {
     return axios.delete(`${Path.BASE_URL}/${id}`);
 }
 
+const getToken = (): string => {
+    const token = document.cookie.split(Str.SEMI_COLON)[0].split(Str.EQUALS)[1];
+    if(!token) {
+        alert(Errors.ERR);
+        return Str.EMPTY;
+    } return token;
+}
+
+const setToken = (key: string, value: string): void => {
+    document.cookie = Str.EMPTY;
+    document.cookie = `${key}${Str.EQUALS}${value}`;
+}
+
 const usersService = {
     getAllUsers,
     getUserById,
@@ -35,6 +49,6 @@ const usersService = {
     login,
     changeUser,
     deleteUser,
-} 
-
-export default usersService;
+    getToken,
+    setToken,
+}; export default usersService;

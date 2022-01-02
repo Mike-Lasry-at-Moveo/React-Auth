@@ -21,11 +21,16 @@ export default function LoginPage(){
         setCredentials((ps) => newAuthObject());
     }
 
+    const validateFields = () => {
+        return credentials.username != Str.EMPTY
+            &&  credentials.password != Str.EMPTY;
+    };
+
     const loginHandler = (event:any) => {
         event.preventDefault();
-        usersService.login(credentials)
-        .then(response => { 
-            // save response.data.message
+        if(!validateFields()) return alert(Str.INVALID);
+        usersService.login(credentials).then(response => { 
+            usersService.setToken(Str.JWT, response.data.message);            
             resetFields();
             alert(Str.WELCOME_B);
             navigate(`/${Path.ADMIN_SFX}`);
