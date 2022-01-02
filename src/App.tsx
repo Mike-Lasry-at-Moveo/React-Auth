@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "App.scss"
+import Navbar from 'Components/Navbar/Navbar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
+import LoginPage from 'Pages/Auth/Login/LoginPage';
+import SignupPage from 'Pages/Auth/Signup/SignupPage';
+import AdminPage from 'Pages/Admin/AdminPage';
+import HomePage from 'Pages/Home/HomePage';
+import UserDetails from 'Components/User/UserDetails/UserDetails';
+import { ClassName, Path } from 'Interfaces/Enums';
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={ClassName.APP}>
+      { <BrowserRouter >
+        <Navbar />
+        <Routes>
+            <Route path={`/${Path.HOME_SFX}`} element={<HomePage/>}/>
+            <Route path={`/${Path.LOGIN_SFX}`} element={<LoginPage/>}/>
+            <Route path={`/${Path.SIGNUP_SFX}`} element={<SignupPage/>}/>
+            <Route path={`/${Path.ADMIN_SFX}`} element={<AdminPage/>}/>
+            <Route path={`/${Path.UPDT_USR}/${Path.ID_PARAM}`} element={<UserDetails/>}/>
+        </Routes>
+        </BrowserRouter>
+      }
     </div>
   );
 }
-
-export default App;

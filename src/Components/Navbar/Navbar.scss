@@ -1,0 +1,26 @@
+@mixin squared($vh) {
+    width: $vh;
+    height: $vh;
+}
+
+.navbar{
+    background-color: rgb(60, 144, 240);
+    display: flex;
+    justify-content: space-around;
+    vertical-align: middle;
+    height:100px;
+
+    button{
+        border-radius: 25px;
+        height:40%;
+        position: relative;
+        top:20%;
+        margin:3px;
+    }
+}
+
+img {
+    position: relative;
+    top:35%;
+    @include squared(30px);
+}
