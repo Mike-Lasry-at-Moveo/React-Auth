@@ -4,6 +4,7 @@ import IAuth from 'Interfaces/Auth';
 import { ClassName, Errors, InputTypes, Path, Str } from 'Interfaces/Enums';
 import usersService from 'Services/users';
 import { useNavigate } from 'react-router-dom';
+import authService from 'Services/auth';
 
 export default function LoginPage(){
     
@@ -30,10 +31,10 @@ export default function LoginPage(){
         event.preventDefault();
         if(!validateFields()) return alert(Str.INVALID);
         usersService.login(credentials).then(response => { 
-            usersService.setToken(Str.JWT, response.data.message);            
+            authService.login(response.data.message);      
             resetFields();
             alert(Str.WELCOME_B);
-            navigate(`/${Path.ADMIN_SFX}`);
+            navigate(`/${Path.HOME_SFX}`);
         });
     }
     

@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-.loginControls{
+.loginControls {
     color: wheat;
     background-color: rgb(14, 108, 216);
     margin: 25px;
@@ -23,15 +23,17 @@ input {
     text-align: center;
 }
 
-.loginControl{
+.loginControl {
     padding: 5px;
+    width:100%;
 }
 
-form{
-    width: 25%;
+form {
+    width: 100%;
+    min-width: 250px;
 }
 
-.loginBtn{
+.loginBtn {
     color: darkblue;
     font-weight: bolder;
     width: 150px;
@@ -41,6 +43,6 @@ form{
     background-color: rgb(141, 194, 255);
 }
 
-h3{
+h3 {
     color:white;
 }

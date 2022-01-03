@@ -8,17 +8,27 @@ enum Errors {
     ERR = 'Somthing went wrong!',
     FILL_CREDS = 'All fields must be supplied!',
     PW_MATCH = 'Passwords are not match!',
-    AXIOS = ''
+    AXIOS = 'Error trying to activate axios: ',
+    DEL_FAIL = 'Deleting user failed'
 }
-
+enum Role {
+    ADMIN = 'admin',
+    AUTHOR = 'author',
+    EDITOR = 'editor',
+    CLIENT = 'client',
+}
 enum Str { 
+    DOT = '.',
     EMPTY = '',
+    SPACE = ' ',
     EQUALS = '=',
-    SEMI_COLON = ';',
+    EXP = 'exp',
     JWT = 'jwt',
+    SEMI_COLON = ';',
     CHOOSE_VAL = 'Choose a new value',
     WELCOME_B = 'Welcome back!',
-    INVALID = "Please fill all fields properlly!"
+    INVALID = "Please fill all fields properly!",
+    PASSED_DATE = 'Thu, 01 Jan 1970 00:00:00 GMT',
 }
 
 enum Path {
@@ -26,7 +36,8 @@ enum Path {
     UPDT_USR = '/user-details',
     ID_PARAM = ':id',
     
-    HOME_SFX = "",
+    HOME_SFX = '',
+    PROFILE_SFX = 'profile',
     LOGIN_SFX = 'login',
     ADMIN_SFX = 'admin',
     SIGNUP_SFX = 'signup',
@@ -43,8 +54,11 @@ enum UpdateOptions {
 
 enum ClassName {
     APP = 'App',
+
     LOGIN_PAGE = 'loginPage',
     SIGNUP_PAGE = "signupPage",
+    HOME_PAGE = 'homePage',
+    
     NAVBAR = 'navbar',
 
     UN_INP = 'usernameInput',
@@ -84,9 +98,12 @@ enum ClassName {
     UPDT_USR = 'updateUserBtn',
     DEL_USR = 'deleteUserBtn',
 
+    HOME_BTB = 'homeBtn',
     LOGIN_BTN = 'loginBtn',
     SIGNUP_BTN = 'signupBtn',
     UPDT_BTN = 'updateBtn',
+
+    HOME_ICON_SRC = 'https://img.icons8.com/color/48/000000/home.png',
 }
 
 export {
@@ -94,6 +111,7 @@ export {
     ClassName,
     Errors,
     UpdateOptions,
+    Role,
     Path,
     Str,
  };

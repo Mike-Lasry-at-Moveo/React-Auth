@@ -29,26 +29,25 @@ const deleteUser = (id: string) => {
     return axios.delete(`${Path.BASE_URL}/${id}`);
 }
 
-const getToken = (): string => {
-    const token = document.cookie.split(Str.SEMI_COLON)[0].split(Str.EQUALS)[1];
-    if(!token) {
-        alert(Errors.ERR);
-        return Str.EMPTY;
-    } return token;
-}
+// const getToken = (): string => {
+//     const token = document.cookie.split(Str.SEMI_COLON)[0].split(Str.EQUALS)[1];
+//     if(!token) {
+//         alert(Errors.ERR);
+//         return Str.EMPTY;
+//     } return token;
+// }
 
-const setToken = (key: string, value: string): void => {
-    document.cookie = Str.EMPTY;
-    document.cookie = `${key}${Str.EQUALS}${value}`;
-}
+// const setToken = (key: string, value: string): void => {
+//     document.cookie = Str.EMPTY;
+//     if (value === Str.EMPTY) return;
+//     document.cookie = `${key}${Str.EQUALS}${value}`;
+//}
 
 const usersService = {
     getAllUsers,
     getUserById,
-    signup,
     login,
+    signup,
     changeUser,
     deleteUser,
-    getToken,
-    setToken,
 }; export default usersService;
