@@ -12,6 +12,5 @@ export default function ProfilePage() {
         if(!authService.isUserLogged())
             navigate(`/${Path.LOGIN_SFX}`)
     }, []);
-
     return (<div>Profile Page Works!</div>)
 }

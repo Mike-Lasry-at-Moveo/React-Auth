@@ -13,7 +13,7 @@ export default function SignupPage() {
     // Handlers functions
 
     const credentialsHandler = (value: string, inputType: string) => {
-        switch (inputType) {
+        switch (inputType.split(Str.SPACE)[1]) {
             case ClassName.UN_INP: setCredentials((prevState: IAuth) => { return { ...prevState, username: value } }); break;
             case ClassName.FN_INP: setCredentials((prevState: IAuth) => { return { ...prevState, firstName: value } }); break;
             case ClassName.LN_INP: setCredentials((prevState: IAuth) => { return { ...prevState, lastName: value } }); break;
@@ -25,14 +25,13 @@ export default function SignupPage() {
         }
     }
 
-    const signupHandler = (event: any) => {
+    const signupHandler = async (event: any) => {
         event.preventDefault();
         if (!validateInputs()) return alert(Errors.FILL_CREDS);
         if (!passwordsMatch()) return alert(Errors.PW_MATCH);
-        usersService.signup(credentials).then(axiosResponse => {
-             resetFields();  
-             navigate(`/${Path.LOGIN_SFX}`)
-        });
+        const axiosResponse = await usersService.signup(credentials);
+        resetFields();  
+        navigate(`/${Path.LOGIN_SFX}`)
     }
 
     // Util functions
@@ -64,14 +63,11 @@ export default function SignupPage() {
         return credentials.password === credentials.confirmPassword;
     }
 
-    const resetFields = () => { // TODO: fix inputs reset: not working
+    const resetFields = () => { // TODO: fix inputs reset: not working ??
         setCredentials((ps) => { return newAuthObject() });
     }
-
-    // State Hook
     const [credentials, setCredentials] = useState(newAuthObject())
 
-    // JSX Result
     return (
         <div className={ClassName.SIGNUP_PAGE}>
             <h3>Join the crew!</h3>
@@ -79,37 +75,37 @@ export default function SignupPage() {
                 <div className={ClassName.SIGNUP_CNTRLS}>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Username</label><br />
-                        <input value={credentials.username} className={ClassName.UN_INP} type={InputTypes.TXT}
+                        <input value={credentials.username} className={`${ClassName.CREDS_INP} ${ClassName.UN_INP}`} type={InputTypes.TXT}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>First Name</label><br />
-                        <input value={credentials.firstName} className={ClassName.FN_INP} type={InputTypes.TXT}
+                        <input value={credentials.firstName} className={`${ClassName.CREDS_INP} ${ClassName.FN_INP}`} type={InputTypes.TXT}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Last Name</label><br />
-                        <input value={credentials.lastName} className={ClassName.LN_INP} type={InputTypes.TXT}
+                        <input value={credentials.lastName} className={`${ClassName.CREDS_INP} ${ClassName.LN_INP}`} type={InputTypes.TXT}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Email</label><br />
-                        <input value={credentials.email} className={ClassName.EMAIL_INP} type={InputTypes.TXT}
+                        <input value={credentials.email} className={`${ClassName.CREDS_INP} ${ClassName.EMAIL_INP}`} type={InputTypes.TXT}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Address</label><br />
-                        <input value={credentials.address} className={ClassName.ADDR_INP} type={InputTypes.TXT}
+                        <input value={credentials.address} className={`${ClassName.CREDS_INP} ${ClassName.ADDR_INP}`} type={InputTypes.TXT}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Pasaword</label><br />
-                        <input value={credentials.password} className={ClassName.PW_INP} type={InputTypes.PW}
+                        <input value={credentials.password} className={`${ClassName.CREDS_INP} ${ClassName.PW_INP}`} type={InputTypes.PW}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                     <div className={ClassName.SIGNUP_CNTRL}>
                         <label>Confirm Password</label><br />
-                        <input value={credentials.confirmPassword} className={ClassName.CNFRM_INP} type={InputTypes.PW}
+                        <input value={credentials.confirmPassword} className={`${ClassName.CREDS_INP} ${ClassName.CNFRM_INP}`} type={InputTypes.PW}
                             onChange={(e) => credentialsHandler(e.target.value, e.target.className)} />
                     </div>
                 </div>

@@ -10,6 +10,8 @@ import HomePage from 'Pages/Home/HomePage';
 import UserDetails from 'Components/User/UserDetails/UserDetails';
 import { ClassName, Path } from 'Interfaces/Enums';
 import ProfilePage from 'Pages/Profile/ProfilePage';
+import AccessDenied from 'Components/Admin/AccessDenied/AccessDenied';
+import RestaurantDetails from 'Components/Restaurant/RestaurantDetails/RestaurantDetails';
 
 export default function App() {
   return (
@@ -23,6 +25,8 @@ export default function App() {
             <Route path={`/${Path.ADMIN_SFX}`} element={<AdminPage/>}/>
             <Route path={`/${Path.PROFILE_SFX}`} element={<ProfilePage/>}/>
             <Route path={`/${Path.UPDT_USR}/${Path.ID_PARAM}`} element={<UserDetails/>}/>
+            <Route path={`/${Path.UPDT_REST}/${Path.ID_PARAM}`} element={<RestaurantDetails/>}/>
+            <Route path={`/${Path.ACCESS_DENIED}`} element={<AccessDenied/>}/>
         </Routes>
         </BrowserRouter>
       }

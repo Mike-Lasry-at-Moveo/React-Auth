@@ -7,6 +7,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
+    "crypto-js": "^4.1.1",
     "node-sass": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -41,10 +42,10 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.17",
     "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11",
-    "@types/styled-components": "^5.1.19"
+    "@types/react-dom": "^17.0.11"
   }
 }

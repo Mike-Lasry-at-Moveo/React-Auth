@@ -2,16 +2,19 @@
     margin:20px;
     display: flex;
     flex-direction: row;
-    // align-items: center;
-    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
 }
 
 .userCard {
+    display: flex;
+    justify-content: space-between;
     color: wheat;
     border: 3px solid orange;
     background-color: teal;
     border-radius: 20px;
-    width: 20%;
+    width: 50%;
     margin: 4px;
 }
 

@@ -1,13 +1,13 @@
 import React from "react";
 import "Components/User/UserDetails/UserDetails.scss"
 import { Link, useParams } from "react-router-dom";
-import { ClassName, Errors, InputTypes, Path, Str, UpdateOptions } from "Interfaces/Enums";
+import { ClassName,  InputTypes, Path, Str, UpdateOptions } from "Interfaces/Enums";
 import { useState } from "react";
 import IUser from "Interfaces/User";
 import { useEffect } from "react";
 import usersService from "Services/users";
-import IUpdateUser from "Interfaces/UserUpdate";
-import { deflate } from "zlib";
+import IUpdateUser from "Interfaces/Update";
+import IResponse from "Interfaces/Response";
 
 export default function UserDetails() {
     const newUser = (): IUser => {
@@ -28,7 +28,7 @@ export default function UserDetails() {
         } as IUpdateUser;
     }
 
-    const getUpdatedUser = (): IUser => {
+    const getUserUpdated = (): IUser => {
         switch (update.key) {
             case UpdateOptions.UN: return { ...user, username: update.value };
             case UpdateOptions.FN: return { ...user, firstName: update.value };
@@ -44,21 +44,18 @@ export default function UserDetails() {
         setUpdate(newUpdate());
     }
 
-    const validFields = (): boolean => {
+    const validateFields = (): boolean => {
         return update.value != Str.EMPTY;
     };
 
-    const updateUser = (e: any) => {
+    const updateUser = async (e: any) => {
         e.preventDefault();
-        if(!validFields())
-        usersService.changeUser(user._id as string, update)
-            .then(response => {
-                if (response.data.acknowledged && response.data.modifiedCount) {
-                    setUser((prevState) => { return { ...getUpdatedUser() } });
-                    resetFields();
-                }
-            });
-
+        const responseWrapper = await usersService.changeUser(user._id as string, update);
+        const response = responseWrapper.data as IResponse;
+        if (response.acknowledged && response.modifiedCount) {
+            setUser((prevState) => { return { ...getUserUpdated() } });
+            resetFields();
+        }
     }
 
     const pickUpdateKey = (event: any) => {
@@ -85,10 +82,11 @@ export default function UserDetails() {
     const [update, setUpdate] = useState(newUpdate() as IUpdateUser)
 
     useEffect(() => {
-        usersService.getUserById(id!).then(response => {
+        const fetchUsers = async () => {
+            const response = await usersService.getUserById(id!);
             if (response && response.data && response.data.success)
                 setUser((ps) => response.data.data);
-        });
+        }; fetchUsers();
     }, []);
 
     return (
@@ -125,7 +123,7 @@ export default function UserDetails() {
                     </div>
                     <div className={ClassName.UPDT_ACTNS}>
                         <div className={ClassName.UPDT_ACTN}>
-                            <button className={ClassName.UPDT_BTN}>
+                            <button type={InputTypes.SUBMIT} className={ClassName.UPDT_BTN}>
                                 Update
                             </button>
                         </div>

@@ -5,13 +5,14 @@ import { ClassName, Errors, InputTypes, Path, Str } from 'Interfaces/Enums';
 import usersService from 'Services/users';
 import { useNavigate } from 'react-router-dom';
 import authService from 'Services/auth';
+import { useEffect } from 'react';
 
 export default function LoginPage(){
     
     const navigate = useNavigate();
 
     const credentialsHandler = (value: string, className: string) => {
-        switch (className) {
+        switch (className.split(Str.SPACE)[1]) {
             case ClassName.UN_INP: return setCredentials((prevState) => { return {...prevState, username: value} });
             case ClassName.PW_INP: return setCredentials((prevState) => { return {...prevState, password: value} });
             default: alert(Errors.ERR);
@@ -27,15 +28,14 @@ export default function LoginPage(){
             &&  credentials.password != Str.EMPTY;
     };
 
-    const loginHandler = (event:any) => {
+    const loginHandler = async (event:any) => {
         event.preventDefault();
         if(!validateFields()) return alert(Str.INVALID);
-        usersService.login(credentials).then(response => { 
-            authService.login(response.data.message);      
-            resetFields();
-            alert(Str.WELCOME_B);
-            navigate(`/${Path.HOME_SFX}`);
-        });
+        const response = await usersService.login(credentials);
+        authService.login(response.data.message);      
+        resetFields();
+        alert(Str.WELCOME_B);
+        navigate(`/${Path.HOME_SFX}`);
     }
     
     const newAuthObject = (): IAuth => {
@@ -47,25 +47,27 @@ export default function LoginPage(){
     
     const [credentials, setCredentials] = useState(newAuthObject() as IAuth)
 
+    useEffect(() => { if(authService.isUserLogged()) navigate(`/${Path.PROFILE_SFX}`); }, []);
+
     return (
         <div className={ClassName.LOGIN_PAGE}>
-            <h3>Welcome Back</h3>
+            <h3>Welcome Becks</h3>
             <form>
                 <div className={ClassName.LOGIN_CNTRLS}>
                     <div className={ClassName.LOGIN_CNTRL}>
                         <label>Username</label><br/>
-                        <input value={credentials.username} className={ClassName.UN_INP} type={InputTypes.TXT} 
+                        <input value={credentials.username} className={`${ClassName.CREDS_INP} ${ClassName.UN_INP}`} type={InputTypes.TXT} 
                             onChange={ (e) => credentialsHandler(e.target.value, e.target.className) } />
                     </div>
                     <div className={ClassName.LOGIN_CNTRL}>
                         <label>Password</label><br/>
-                        <input value={credentials.password} className={ClassName.PW_INP} type={InputTypes.PW} 
+                        <input value={credentials.password} className={`${ClassName.CREDS_INP} ${ClassName.PW_INP}`} type={InputTypes.PW} 
                             onChange={ (e) => credentialsHandler(e.target.value, e.target.className) } />
                     </div>
                 </div>
                 <div className={ClassName.LOGIN_ACTNS}>
                     <div className={ClassName.LOGIN_ACTN}>
-                        <button className={ClassName.LOGIN_BTN} onClick={ (e) => loginHandler(e) }>Login</button>
+                         <button className={ClassName.LOGIN_BTN} onClick={ (e) => loginHandler(e) }>LOGIN</button>
                     </div>
                 </div>
             </form>

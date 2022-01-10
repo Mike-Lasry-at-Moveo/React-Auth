@@ -1,4 +1,6 @@
 export default interface IResponse {
-    success:boolean, 
-    data: any
+    modifiedCount?: number,
+    acknowledged?: boolean,
+    success?:boolean, 
+    data?: any
 }

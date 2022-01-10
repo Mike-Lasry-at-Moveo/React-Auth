@@ -2,46 +2,38 @@ import React from "react";
 import axios from "axios";
 import { Errors, Path, Str } from "Interfaces/Enums";
 import IAuth from "Interfaces/Auth";
-import IUpdateUser from "Interfaces/UserUpdate";
+import IUpdateUser from "Interfaces/Update";
+import securityService from "./security";
 
 const getAllUsers = (token: string) => {
-    const config = { headers: { ['authorization']: `Bearer: ${token}` } }; 
-    return axios.get(Path.BASE_URL, config);
+    token = securityService.encryptString(token);
+    const config = { headers: { [Str.AUTH]: `${Str.BEARER}${Str.COLON}${Str.SPACE}${token}` } }; 
+    return axios.get(`${Path.BASE_URL}/${Path.USERS_SFX}`, config);
 }
 
 const getUserById = (id: string) => {
-    return axios.get(`${Path.BASE_URL}/${id}`);
+    return axios.get(`${`${Path.BASE_URL}/${Path.USERS_SFX}`}/${id}`);
 }
 
 const signup = (credentials: IAuth) => {
-    return axios.post(`${Path.BASE_URL}`, credentials);
+    console.log(credentials);    
+    let payload = securityService.encryptJson(credentials);
+    console.log(payload);    
+    return axios.post(`${`${Path.BASE_URL}/${Path.USERS_SFX}`}`, {data:payload});
 }
 
 const login = (payload: IAuth) => { 
-    return axios.post(`${Path.BASE_URL}/${Path.LOGIN_SFX}`, payload);
+    let encPayload = securityService.encryptJson(payload);
+    return axios.post(`${`${Path.BASE_URL}/${Path.USERS_SFX}`}/${Path.LOGIN_SFX}`, {data: encPayload});
 }
 
 const changeUser = (id: string, update: IUpdateUser) => {
-    return axios.patch(`${Path.BASE_URL}/${id}`, update);
+    return axios.patch(`${`${Path.BASE_URL}/${Path.USERS_SFX}`}/${id}`, update);
 }
 
 const deleteUser = (id: string) => {
-    return axios.delete(`${Path.BASE_URL}/${id}`);
+    return axios.delete(`${`${Path.BASE_URL}/${Path.USERS_SFX}`}/${id}`);
 }
-
-// const getToken = (): string => {
-//     const token = document.cookie.split(Str.SEMI_COLON)[0].split(Str.EQUALS)[1];
-//     if(!token) {
-//         alert(Errors.ERR);
-//         return Str.EMPTY;
-//     } return token;
-// }
-
-// const setToken = (key: string, value: string): void => {
-//     document.cookie = Str.EMPTY;
-//     if (value === Str.EMPTY) return;
-//     document.cookie = `${key}${Str.EQUALS}${value}`;
-//}
 
 const usersService = {
     getAllUsers,
